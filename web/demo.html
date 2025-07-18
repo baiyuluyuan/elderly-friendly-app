@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老年助手 - 应用演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .phone-frame {
+            width: 350px;
+            height: 600px;
+            background: #000;
+            border-radius: 30px;
+            padding: 15px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .app-header {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .status-bar {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .app-content {
+            padding: 30px 20px;
+            height: calc(100% - 80px);
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        
+        .app-button {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+        
+        .app-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .app-button:active {
+            transform: translateY(0);
+        }
+        
+        .button-icon {
+            font-size: 24px;
+            width: 40px;
+            text-align: center;
+        }
+        
+        .button-text {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .emergency-button {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+            color: white;
+        }
+        
+        .emergency-button:hover {
+            background: linear-gradient(45deg, #ff3838, #ff2f2f);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 300px;
+            width: 90%;
+        }
+        
+        .modal h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .modal p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .modal-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .github-info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .github-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="phone-screen">
+            <div class="app-header">
+                <div class="status-bar">📶 100% 🔋</div>
+                <div>👴 老年助手</div>
+            </div>
+            <div class="app-content">
+                <button class="app-button" onclick="showFeature('拨号', '📞 一键拨号功能\n\n• 大字体显示联系人\n• 一键快速拨打\n• 常用联系人置顶\n• 语音播报号码')">
+                    <span class="button-icon">📞</span>
+                    <span class="button-text">一键拨号</span>
+                </button>
+                
+                <button class="app-button emergency-button" onclick="showFeature('紧急呼叫', '🆘 紧急呼叫功能\n\n• 120 急救电话\n• 110 报警电话\n• 119 火警电话\n• 一键快速拨打\n• 自动发送位置信息')">
+                    <span class="button-icon">🆘</span>
+                    <span class="button-text">紧急呼叫</span>
+                </button>
+                
+                <button class="app-button" onclick="showFeature('抖音娱乐', '🎵 抖音娱乐功能\n\n• 精选老年人喜爱内容\n• 大字体界面\n• 简单手势操作\n• 音量自动调节\n• 护眼模式')">
+                    <span class="button-icon">🎵</span>
+                    <span class="button-text">抖音娱乐</span>
+                </button>
+                
+                <button class="app-button" onclick="showFeature('语音助手', '🗣️ 语音助手功能\n\n• 语音拨打电话\n• 语音发送消息\n• 天气查询\n• 时间提醒\n• 简单对话')">
+                    <span class="button-icon">🗣️</span>
+                    <span class="button-text">语音助手</span>
+                </button>
+                
+                <button class="app-button" onclick="showFeature('联系人', '👥 联系人管理\n\n• 大头像显示\n• 分组管理\n• 快速搜索\n• 一键添加\n• 备注信息')">
+                    <span class="button-icon">👥</span>
+                    <span class="button-text">联系人</span>
+                </button>
+                
+                <button class="app-button" onclick="showFeature('设置', '⚙️ 个性化设置\n\n• 字体大小调节\n• 音量设置\n• 亮度调节\n• 主题切换\n• 语言选择')">
+                    <span class="button-icon">⚙️</span>
+                    <span class="button-text">个性设置</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 功能演示弹窗 -->
+    <div class="modal" id="featureModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">功能演示</h3>
+            <p id="modalContent">功能描述</p>
+            <button class="modal-button" onclick="closeModal()">知道了</button>
+        </div>
+    </div>
+    
+    <!-- GitHub信息 -->
+    <div class="github-info">
+        ✅ 应用开发完成 | 🔄 APK构建中<br>
+        <a href="https://github.com/baiyuluyuan/elderly-friendly-app" class="github-link" target="_blank">
+            查看GitHub项目
+        </a>
+    </div>
+    
+    <script>
+        function showFeature(title, description) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalContent').textContent = description;
+            document.getElementById('featureModal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('featureModal').style.display = 'none';
+        }
+        
+        // 点击背景关闭弹窗
+        document.getElementById('featureModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // 添加一些交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 模拟加载动画
+            const buttons = document.querySelectorAll('.app-button');
+            buttons.forEach((button, index) => {
+                button.style.opacity = '0';
+                button.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    button.style.transition = 'all 0.5s ease';
+                    button.style.opacity = '1';
+                    button.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
