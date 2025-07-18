@@ -1,0 +1,27 @@
+# 使用国内镜像源加速下载
+# 阿里云镜像
+systemProp.https.proxyHost=maven.aliyun.com
+systemProp.https.proxyPort=443
+
+# 腾讯云镜像
+# systemProp.https.proxyHost=mirrors.cloud.tencent.com
+# systemProp.https.proxyPort=443
+
+# 华为云镜像
+# systemProp.https.proxyHost=mirrors.huaweicloud.com
+# systemProp.https.proxyPort=443
+
+# 增加超时时间
+org.gradle.daemon.idletimeout=60000
+org.gradle.jvmargs=-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
+
+# 启用并行构建
+org.gradle.parallel=true
+org.gradle.configureondemand=true
+
+# React Native 相关配置
+android.useAndroidX=true
+android.enableJetifier=true
+
+# 新架构支持
+newArchEnabled=false
